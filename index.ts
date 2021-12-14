@@ -7,6 +7,7 @@ const axios = require("axios");
 const typeDefs = gql`
   type Query {
     getCryptos: [Crypto]
+    getCrypto(name: String): [Crypto]
   }
 
   type Crypto {
@@ -21,14 +22,23 @@ const typeDefs = gql`
 //creates the function
 const resolvers = {
   Query: {
-    getCryptos: async () => {
+    getCryptos: () => {
       try {
-        const response = await axios
-          .get(
-            `http://rest.coinapi.io/v1/assets?apikey=B15D99A1-5C2D-46C8-9C88-D2D502168874`
-          )
+        const response = axios
+          .get(`http://rest.coinapi.io/v1/assets?apikey=${apiKEY}`)
           .then((res) => res.data.filter((p) => p.type_is_crypto === 1));
 
+        return response;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    getCrypto(parent, args) {
+      console.log(args.name, "args2");
+      try {
+        const response = axios
+          .get(`http://rest.coinapi.io/v1/assets/${args.name}?apikey=${apiKEY}`)
+          .then((res) => res.data);
         return response;
       } catch (error) {
         console.error(error);

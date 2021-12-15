@@ -2,14 +2,12 @@ const { ApolloServer, gql } = require("apollo-server");
 const apiKEY = "B15D99A1-5C2D-46C8-9C88-D2D502168874";
 const axios = require("axios");
 
-// The GraphQL schema
-//create how the type for
+//typedefs
 const typeDefs = gql`
   type Query {
     getCryptos: [Crypto]
     getCrypto(name: String): [Crypto]
   }
-
   type Crypto {
     asset_id: String
     name: String
@@ -18,8 +16,7 @@ const typeDefs = gql`
   }
 `;
 
-// A map of functions which return data for the schema.
-//creates the function
+//resolvers
 const resolvers = {
   Query: {
     getCryptos: () => {

@@ -20,18 +20,18 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     getCryptos: () => {
+      //filters everything that is not crypto
       try {
         const response = axios
           .get(`http://rest.coinapi.io/v1/assets?apikey=${apiKEY}`)
           .then((res) => res.data.filter((p) => p.type_is_crypto === 1));
-
         return response;
       } catch (error) {
         console.error(error);
       }
     },
     getCrypto(parent, args) {
-      console.log(args.name, "args2");
+      //adds argument for name in get request
       try {
         const response = axios
           .get(`http://rest.coinapi.io/v1/assets/${args.name}?apikey=${apiKEY}`)
